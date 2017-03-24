@@ -53,25 +53,23 @@ defmodule Sudoku do
     |> Enum.sort
   end
 
-  def row(board, number) do 
-    board
-    |> Map.keys
-    |> Enum.filter( fn([row,_,_]) -> row == number end)
-    |> values(board)
+  def row(board, row) do
+    fetch(board, fn [^row, _column, _block] -> true; _key -> false end)
   end
 
-  def column(board, number) do 
-    board
-    |> Map.keys
-    |> Enum.filter( fn([_,column,_]) -> column == number end)
-    |> values(board)
+  def column(board, column) do
+    fetch(board, fn [_row, ^column, _block] -> true; _key -> false end)
   end
 
   def block(board, row, column), do: block(board,div(row,3) * 3 + div(column,3) )
-  def block(board, number) do
+  def block(board, block) do
+    fetch(board, fn [_row, _column, ^block] -> true; _key -> false end)
+  end
+
+  defp fetch(board, matcher) do
     board
     |> Map.keys
-    |> Enum.filter( fn([_,_,block]) -> block == number end)
+    |> Enum.filter(matcher)
     |> values(board)
   end
 
