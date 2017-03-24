@@ -25,7 +25,7 @@ defmodule Sudoku do
 
   defp row_to_s(row) do
     row
-    |> Enum.map(fn(cell) -> if cell == nil, do: " ", else: cell end) 
+    |> Enum.map(fn nil -> " "; cell -> cell end)
     |> List.insert_at(6,"|")
     |> List.insert_at(3,"|")
     |> Enum.join("")
@@ -33,8 +33,7 @@ defmodule Sudoku do
 
   def to_s(list) do
     list
-    |> cells_with_index
-    |> Enum.map(fn({_,cell}) -> cell end)
+    |> Map.values
     |> Enum.chunk(9)
     |> Enum.map(fn(row) -> row_to_s(row) end)
     |> Enum.join("\n")
