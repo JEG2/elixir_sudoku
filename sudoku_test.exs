@@ -31,17 +31,32 @@ defmodule SudokuTest do
   use SudokuTemplate, async: true
 
   test "get row 0 from base sudoku board", %{base: base} do
-    assert Sudoku.row(Sudoku.to_map(base),0) == Enum.fetch(base,0) |> elem(1) |> Enum.sort
+    row =
+      base
+      |> Sudoku.to_map
+      |> Sudoku.row(0)
+      |> Enum.sort
+    assert row == Enum.fetch(base,0) |> elem(1) |> Enum.sort
   end
 
   test "get column 0 from base sudoku board", %{base: base} do
-    column = [ 9, nil, nil, nil, 5, nil, nil, 1, nil ] |> Enum.sort
-    assert Sudoku.column(Sudoku.to_map(base),0) == column
+    actual =
+      base
+      |> Sudoku.to_map
+      |> Sudoku.column(0)
+      |> Enum.sort
+    expected = [ 9, nil, nil, nil, 5, nil, nil, 1, nil ] |> Enum.sort
+    assert actual == expected
   end
 
   test "get block 2 (0 indexed, reading left to right)", %{base: base} do 
-    block = Enum.sort([ nil, nil, 2, 6, 5, 4, 9, 7, 1 ])
-    assert Enum.sort(Sudoku.block(Sudoku.to_map(base),2)) == block
+    actual =
+      base
+      |> Sudoku.to_map
+      |> Sudoku.block(2)
+      |> Enum.sort
+    expected = Enum.sort([ nil, nil, 2, 6, 5, 4, 9, 7, 1 ])
+    assert actual == expected
   end
 
   test "get block that contains cell 0,6", %{base: base} do

@@ -45,14 +45,6 @@ defmodule Sudoku do
     |> Enum.any?(fn(value) -> value == nil end)
   end
 
-  def values(board), do: values(Map.keys(board), board)
-  def values(cell_addresses, board) do
-    board
-    |> Map.take(cell_addresses)
-    |> Map.values
-    |> Enum.sort
-  end
-
   def row(board, row) do
     fetch(board, fn [^row, _column, _block] -> true; _key -> false end)
   end
@@ -70,7 +62,7 @@ defmodule Sudoku do
     board
     |> Map.keys
     |> Enum.filter(matcher)
-    |> values(board)
+    |> Enum.map(fn address -> Map.fetch!(board, address) end)
   end
 
   def blank_positions(board) do
