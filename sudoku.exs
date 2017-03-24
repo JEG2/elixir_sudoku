@@ -34,17 +34,14 @@ defmodule Sudoku do
   def to_s(list) do
     list
     |> cells_with_index
-    |> Enum.map(fn([_,cell]) -> cell end)
+    |> Enum.map(fn({_,cell}) -> cell end)
     |> Enum.chunk(9)
     |> Enum.map(fn(row) -> row_to_s(row) end)
     |> Enum.join("\n")
   end
 
   def cells_with_index(board) do
-    board
-    |> Map.keys
-    |> Enum.sort
-    |> Enum.map(fn(key) -> [key, board[key]] end)
+    Map.to_list(board)
   end
 
   def unsolved?(board) do

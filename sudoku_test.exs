@@ -52,7 +52,7 @@ defmodule SudokuTest do
   test "can stream cells with indexes" do
     zero  = [[ 9,   nil, 4  ]]
     assert Sudoku.cells_with_index(Sudoku.to_map(zero)) ==
-      [ [[0,0,0],9], [[0,1,0],nil], [[0,2,0],4]  ]
+      [ {[0,0,0],9}, {[0,1,0],nil}, {[0,2,0],4}  ]
   end
 
   test "can fill a cell with only one variable to fill", %{base: base, base_after_insert: base_after_insert} do
