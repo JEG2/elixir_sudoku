@@ -39,10 +39,6 @@ defmodule Sudoku do
     |> Enum.join("\n")
   end
 
-  def cells_with_index(board) do
-    Map.to_list(board)
-  end
-
   def unsolved?(board) do
     board
     |> Map.values
