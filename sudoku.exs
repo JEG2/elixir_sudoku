@@ -2,16 +2,12 @@ defmodule Sudoku do
 
   def to_board(raw_data) when is_list(raw_data) do
     raw_data
-    |> Enum.map( fn(cell) ->
-      if cell == " ", do: nil, else: String.to_integer(cell)
-    end)
+    |> Enum.map(fn " " -> nil; cell -> String.to_integer(cell) end)
     |> Enum.chunk(9)
   end
   def to_board(string) when is_binary(string) do
-    String.codepoints(string)
-    |> Enum.reduce([], fn(cell, acc) -> 
-      if cell == "\n" || cell == 10, do: acc, else: acc ++ [ cell ]
-    end)
+    Regex.scan(~r{[^\n]}, string)
+    |> List.flatten
     |> to_board
   end
 
